@@ -1,0 +1,83 @@
+
+
+Univariate Distributions (Figure 1 & Figure 2)
+Figure 1 displays the distribution of nine continuous financial variables using histograms with a Kernel Density Estimate (KDE) curve overlaid. Figure 2 shows similar distributions for the financial variables, plus the distributions for Fee Structure (categorical) and Age (continuous/grouped).
+
+Key Observations on Distribution
+Right-Skewness (Highly Concentrated at Lower Values): Almost all financial variables exhibit a strong right skew.
+
+Examples: Estimated Income, Superannuation Savings, Credit Card Balance, Bank Loans, Bank Deposits, Checking Accounts, Saving Accounts, Foreign Currency Account, and Business Lending.
+
+Insight: This is typical for financial data, indicating that a large majority of customers have lower values (e.g., lower income, smaller balances), while a small number of outliers or high-net-worth individuals have extremely high values.
+
+EDA Implication: This skewness suggests that standard statistical measures like the mean might be inflated by the few large values, making the median a more robust measure of central tendency. Data transformations (like log-transformation) might be necessary before applying certain linear models.
+
+Bimodal/Multi-Modal Distribution (Figure 2):
+
+Fee Structure: The distribution appears bimodal or multi-modal (peaked at High and Low/Mid, with a trough between High and Mid).
+
+Insight: This suggests the customer base naturally falls into distinct groups based on the fee structure they utilize. This variable could be a strong segmenting factor for modeling.
+
+Uniform/Flat Distribution (Figure 2):
+
+Age: The age distribution is relatively flat or slightly bi-modal, indicating a fairly even distribution of customers across the working age groups (e.g., 20s through 70s).
+
+Insight: This suggests no strong bias towards a particular age cohort in the dataset's customer base, though there might be slight peaks in the 40s/50s and 60s/70s.
+
+Correlation Analysis (Heatmap)
+The heatmap displays the Pearson correlation coefficients between the nine continuous financial variables.
+
+Key Observations on Relationships
+Strong Positive Correlations (ρ>0.8):
+
+Bank Deposits ↔ Checking Accounts (ρ=0.84).
+
+Insight: This is a very strong relationship, which is expected. People who hold a lot of money in their Bank Deposits (term deposits, GICs) are also likely to hold substantial amounts in their readily accessible Checking Accounts. For modeling, these two variables might be providing redundant information (multicollinearity), and one might be considered for removal or combination.
+
+Moderate Positive Correlations (ρ≈0.3 to 0.4):
+
+Bank Loans ↔ Estimated Income (ρ=0.33).
+
+Business Lending ↔ Estimated Income (ρ=0.33).
+
+Bank Loans ↔ Business Lending (ρ=0.42).
+
+Insight: These correlations are intuitive. Higher income allows individuals to qualify for and carry larger Bank Loans or engage in more Business Lending activities. The strongest moderate correlation is between the two lending products, suggesting customers who take one loan are more likely to take another.
+
+Weak to Moderate Correlations (All Other Pairs):
+
+Most other correlations fall in the 0.17 to 0.37 range (e.g., Estimated Income and Superannuation Savings at ρ=0.37).
+
+Insight: While weak, these still suggest that having more of one financial product/asset (like high income) is generally associated with having more of another (like credit card balance or superannuation savings).
+
+How this helps in the EDA Process
+As a Data Analyst, these graphs help in the following ways:
+
+1. Data Cleaning and Preprocessing
+Outlier Detection/Handling: The heavily right-skewed distributions confirm the presence of extreme high-value outliers. These need to be investigated. Are they valid high-net-worth individuals, or are they data entry errors?
+
+Transformation: The severe skewness necessitates data transformation (e.g., log(x) or sqrt(x)) to make the distributions more normal (Gaussian) for many statistical tests and machine learning algorithms (e.g., linear regression).
+
+Categorical Encoding: The Fee Structure variable, being clearly multi-modal, should be treated as a categorical variable and appropriately encoded (e.g., one-hot encoding or label encoding).
+
+2. Feature Engineering and Selection
+Multicollinearity: The very high correlation between Bank Deposits and Checking Accounts suggests multicollinearity. For modeling, you might choose to:
+
+Combine them into a single feature (e.g., Total Cash Holdings).
+
+Remove one of the variables.
+
+Use dimensionality reduction techniques like Principal Component Analysis (PCA).
+
+Feature Importance: Variables showing higher correlations with a potential target variable (if available, e.g., customer retention or product usage) are good candidates for initial model features. Estimated Income is reasonably correlated with many other variables, making it a potentially important feature.
+
+3. Hypothesis Generation
+Segmentation: The data suggests potential customer segments:
+
+Wealth/Affluence: Customers with high income, high savings, and high lending balances (the right-tail of the distributions).
+
+Fee Sensitivity: The distinct groups in the Fee Structure suggest groups of customers whose behavior might be influenced differently by fee levels.
+
+Product Cross-Selling: The correlations (e.g., Bank Loans↔Business Lending) suggest a customer who uses one lending product is a good candidate to be offered the other.
+
+In summary, the EDA process should start by addressing the skewness and outliers revealed by the histograms, followed by careful consideration of multicollinearity (especially Bank Deposits/Checking Accounts) as identified by the heatmap, and finally, using the Fee Structure and other variables for customer segmentation and targeted analysis.
